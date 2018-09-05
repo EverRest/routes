@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersStatisticsTable extends Migration
+class CreateEventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,16 @@ class CreateUsersStatisticsTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_statistics', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('length')->default(0);
-            $table->integer('cities')->default(0);
-            $table->integer('places')->default(0);
-            $table->integer('events')->default(0);
-            $table->integer('routes')->default(0);
-            $table->integer('score')->default(0);
+            $table->string('title', 255);
+            $table->text('description');
+            $table->string('address', 255);
+            $table->string('lat', 25);
+            $table->string('lng', 25);
             $table->timestamps();
-
             $table->integer('user_id')->unsigned()->foreign('user_id')->references('id')->on('users');
+            $table->integer('city_id')->unsigned()->foreign('city_id')->references('id')->on('cities');
         });
     }
 
@@ -34,6 +33,6 @@ class CreateUsersStatisticsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_statistics');
+        Schema::dropIfExists('events');
     }
 }
